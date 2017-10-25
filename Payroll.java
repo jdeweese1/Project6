@@ -47,9 +47,13 @@ public class Payroll
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append(name +"\n");
-		sb.append(Integer.toString(idNumber) +"\n");
-		sb.append(getStringPay());
+		sb.append("ID #" + Integer.toString(idNumber) +"\n");
+		sb.append("Gross Pay - "+getStringPay());
 		return sb.toString();
 
+	}
+	public int getID()
+	{
+		return idNumber;
 	}
 }

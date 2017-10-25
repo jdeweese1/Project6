@@ -5,11 +5,77 @@ public class PayrollApp
 {
 	public static void main(String args[])	
 	{
+		Scanner s = new Scanner(System.in);
+		boolean shouldGetAnotherEmployee;
 		ArrayList <Payroll> payRollList = new ArrayList<>();
-		
-		makePayrollObject();
+		// System.out.print("Enter an ID# to delete:");
+		 int tempID =-12;//= Integer.parseInt(s.nextLine());
+		do
+		{
+			payRollList.add(makePayrollObject(payRollList));
+			System.out.print("Would you like to enter another employee? (Y/N):");
+			String temp = s.nextLine().toLowerCase();
+			if(temp.charAt(0) == 'y')
+			{
+				shouldGetAnotherEmployee = true;
+			}
+			else
+				shouldGetAnotherEmployee = false;
+		}while(shouldGetAnotherEmployee);
+
+			System.out.println("Current contents of ArrayList...");
+			for(Payroll employee: payRollList)
+			{
+				System.out.println(employee.toString());
+				System.out.println();
+			}
+			HashMap <Integer, Payroll> map = new HashMap <>(payRollList.size());
+			for(Payroll elem: payRollList)
+			{
+				map.put(elem.getID(), elem);
+			}
+
+			System.out.print("Enter an ID number to delete corresponding record: ");
+			boolean shouldLoop = true;
+			while(shouldLoop)
+			{
+				try
+				{
+					String tempString = s.nextLine();
+					if(tempString.length() !=6)
+					{
+						shouldLoop = true;
+						throw new RuntimeException();
+					}
+					tempID = Integer.parseInt(tempString);
+					if(map.get(tempID) != null)
+						shouldLoop = false;
+				}
+				catch(Exception e)
+				{
+					System.out.print("Enter valid ID number");
+				}
+			}
+			for(int i = 0; i<payRollList.size(); i++)
+			{
+				if(payRollList.get(i).getID() == tempID)
+				{
+					payRollList.remove(i);
+				}
+			}
+			System.out.println("Enter the info for final employee to be added to the list");
+			payRollList.add(makePayrollObject(payRollList));
+			System.out.println("Current contents of ArrayList...");
+			for(Payroll employee: payRollList)
+			{
+				System.out.println(employee.toString());
+				System.out.println();
+			}
+
+
+
 	}
-	public static Payroll makePayrollObject()
+	public static Payroll makePayrollObject( ArrayList <Payroll> payRollList)
 	{
 		String name = "";
 		int idNumber = 0;
@@ -18,8 +84,6 @@ public class PayrollApp
 		Scanner s = new Scanner(System.in);
 		boolean shouldLoop = true;
 		boolean shouldGetAnotherEmployee = true;
-		do
-		{
 		do{
 			try
 			{
@@ -44,18 +108,35 @@ public class PayrollApp
 				System.out.print("Enter employee's 6-digit ID:");
 				String temp = s.nextLine();
 				idNumber = Integer.parseInt(temp);
+				boolean isADuplicate = true;
+				for(Payroll elem: payRollList)
+				{
+					if(idNumber == elem.getID())
+					{
+						throw new RuntimeException();
+					}
+				}
 				if(idNumber>= 100000 && idNumber <=999999)
 				{
 					shouldLoop = false;
 				}
 				else
+				{
+					shouldLoop = true;
 					throw new Exception();
+				}
 			}
 			catch (NumberFormatException e)
 			{
 				System.out.println("Enter a valid integer");
 				shouldLoop = true;
 			}
+			catch(RuntimeException e)
+			{
+				System.out.println("It seems you have entered a duplicate, try agiain");
+				shouldLoop = true;
+			}
+
 			catch(Exception e)
 			{
 				System.out.println("ID must be exactly 6-digits");
@@ -67,7 +148,7 @@ public class PayrollApp
 			{
 				System.out.printf("Enter %s pay rate:",name);
 				String temp = s.nextLine().replaceAll("$","");
-				System.out.println(temp);
+				//System.out.println(temp);
 				payRate = Double.parseDouble(temp);
 				if(payRate < 5 || payRate > 99.99)
 				{
@@ -109,22 +190,6 @@ public class PayrollApp
 				shouldLoop = true;
 			}
 		}while(shouldLoop);
-		payRollList.add(new Payroll(name,idNumber,payRate, hoursWorked));
-		System.out.print("Would you like to enter another student? (Y/N):");
-		String temp = s.nextLine().toLowerCase();
-		if(temp.charAt(0) == 'y')
-		{
-			shouldGetAnotherEmployee = true;
-		}
-		else
-			shouldGetAnotherEmployee = false;
-		}while(shouldGetAnotherEmployee);
-		System.out.println("Current contents of ArrayList...");
-		for(Payroll employee: payRollList)
-		{
-			System.out.println(employee.toString());
-			System.out.println();
-		}
-		System.out.print("Enter an ID Number");
-	}//end main
+		return new Payroll(name,idNumber,payRate, hoursWorked);
+	}//end makePayrollObjects
 }//end class
