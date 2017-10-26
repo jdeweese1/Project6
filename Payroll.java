@@ -6,9 +6,10 @@ public class Payroll
 	private double payRate;
 	private double hoursWorked;
 
-	public Payroll()
+	public Payroll(String inString, int inInt)
 	{
-
+		name = inString;
+		idNumber = inInt;
 	}
 	public Payroll(String inString, int inInt, double inPayRate, double inHoursWorked)
 	{

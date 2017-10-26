@@ -58,22 +58,21 @@ public class PayrollApp
 			}
 			for(int i = 0; i<payRollList.size(); i++)
 			{
-				if(payRollList.get(i).getID() == tempID)
+				int myInt = payRollList.get(i).getID();
+				if(myInt == tempID)
 				{
 					payRollList.remove(i);
+					System.out.println("Employee with ID# " + myInt+" removed from ArrayList");
 				}
 			}
 			System.out.println("Enter the info for final employee to be added to the list");
 			payRollList.add(makePayrollObject(payRollList));
-			System.out.println("Current contents of ArrayList...");
+			System.out.println("Final contents of ArrayList...");
 			for(Payroll employee: payRollList)
 			{
 				System.out.println(employee.toString());
 				System.out.println();
 			}
-
-
-
 	}
 	public static Payroll makePayrollObject( ArrayList <Payroll> payRollList)
 	{
