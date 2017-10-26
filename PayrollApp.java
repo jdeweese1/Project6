@@ -1,8 +1,20 @@
-//Jarod DeWeese
+/**
+* the PayrollApp class creates an ArrayList that holds payRoll objects and then
+*displays the contents of the ArrayList, prompts for teh deletion of an object 
+*based on idNumber, then prompts to add one last payRoll object before finally printing out
+*the contents of the ArrayList one more time
+* @author (your name)
+* @version (which number project this is)
+*///Jarod DeWeese
 //10/24/17
+
 import java.util.*;
 public class PayrollApp
 {
+	/**
+* main is the main method of the program
+* @param args is String array of arguments
+*/
 	public static void main(String args[])	
 	{
 		Scanner s = new Scanner(System.in);
@@ -50,11 +62,14 @@ public class PayrollApp
 					tempID = Integer.parseInt(tempString);
 					if(map.get(tempID) != null)
 						shouldLoop = false;
+					else if(map.get(tempID) == null)
+						throw new Exception();
 				}
 				catch(Exception e)
 				{
-					System.out.print("Enter valid ID number");
+					System.out.print("Enter valid ID number: ");
 				}
+
 			}
 			for(int i = 0; i<payRollList.size(); i++)
 			{
@@ -74,6 +89,11 @@ public class PayrollApp
 				System.out.println();
 			}
 	}
+	/**
+*this method creates a Payroll object by prompting the user for input about each attribute of the object
+* @param payRollList is an ArrayList holding Payroll objects -- needed to make sure none of the Payroll objects are the same
+* @return a Payroll object with all the specified payroll objects
+*/
 	public static Payroll makePayrollObject( ArrayList <Payroll> payRollList)
 	{
 		String name = "";
